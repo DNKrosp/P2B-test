@@ -1,0 +1,48 @@
+Задача №1
+Имеется база со следующими таблицами:
+CREATE TABLE `users` (
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`name` VARCHAR(255) DEFAULT NULL, //Зачем на имя 255 символов?)
+`gender` INT(11) NOT NULL COMMENT '0 - не указан, 1 - мужчина, 2 - женщина.', //Я бы сделал 1 байт TINYINT
+`birth_date` INT(11) NOT NULL COMMENT 'Дата в unixtime.',
+PRIMARY KEY (`id`)
+);
+CREATE TABLE `phone_numbers` (
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`user_id` INT(11) NOT NULL,
+`phone`VARCHAR(255) DEFAULT NULL, // телефон это максимум +109252254020 13 символов
+PRIMARY KEY (`id`)
+);
+
+Напишите запрос, возвращающий имя и число указанных телефонных номеров девушек в возрасте от 18 до 22 лет.
+Оптимизируйте таблицы и запрос при необходимости.
+
+//Напишу в postgres, думаю, будет интересно познакомиться)
+create table case1.users
+(
+	id serial
+		constraint users_pk
+			primary key,
+	name varchar(64) not null,
+	gender int2 default 0,
+	birth_date int not null
+);
+
+comment on column case1.users.birth_date is 'Я УМЕЮ КОММЕТИРОВАТЬ)';
+
+create table case1.phone_numbers
+(
+	id serial
+		constraint phone_numbers_pk
+			primary key,
+	user_id int not null,
+	phone varchar(14) not null
+);
+
+comment on column case1.phone_numbers.user_id is 'А умею ли делать связи?)';
+
+alter table case1.phone_numbers
+	add constraint phone_numbers_users_id_fk
+		foreign key (user_id) references case1.users;
+
+Как-то так это выглядит в postgres, думаю, было интересно
