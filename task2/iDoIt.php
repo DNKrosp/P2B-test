@@ -10,6 +10,7 @@
 //сформирует и вернёт валидный URL на корень указанного в ссылке хоста. //удалю путь из домена+
 function getBeautifulUrl(string $url): string
 {
+    //todo: валидация url
     $explodedUrl = parse_url($url);
     //parse query
     $params = getParamsAssoc(explode("&", $explodedUrl["query"]));
